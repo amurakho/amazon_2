@@ -55,7 +55,7 @@ class AmazonSearchResultSpider(scrapy.Spider):
         keywords = kwargs.get('keywords', None)
         if keywords:
             self.keywords = keywords.split(',')
-        # self.image_manage = kwargs.get('image', 'link')
+        self.image_manage = 'link'
         self.max_pages = kwargs.get('pages', None)
 
     def parse(self, response):

@@ -134,8 +134,7 @@ class AmazonSearchResultPipeline(ImagesPipeline):
         for path, image, buf in self.get_images(response, request, info):
             if not response.meta['item']['image']:
                 return
-            name = response.meta['item']['name'].replace('/', '-')
-            file_name = name + '_' + str(response.meta['item']['asin'])
+            file_name = response.meta['item']['asin'].replace('/', '-')
             path = '{}.jpg'.format(file_name)
             self.store.persist_file(
                 path, buf, info,

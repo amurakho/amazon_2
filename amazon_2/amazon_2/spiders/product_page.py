@@ -26,7 +26,7 @@ class ProductPageSpider(scrapy.Spider):
     custom_settings = {
         'ITEM_PIPELINES': {
             'amazon_2.pipelines.AmazonSearchResultPipeline': 300,
-            'amazon_2.pipelines.AmazonProductDump': 301,
+            # 'amazon_2.pipelines.AmazonProductDump': 301,
         },
         # this is delays between requests(in sec).
         # If you want get faster, you can change it, but it is on your own risk
