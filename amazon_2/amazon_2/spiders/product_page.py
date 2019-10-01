@@ -26,7 +26,7 @@ class ProductPageSpider(scrapy.Spider):
     custom_settings = {
         'ITEM_PIPELINES': {
             'amazon_2.pipelines.AmazonSearchResultPipeline': 300,
-            # 'amazon_2.pipelines.AmazonProductDump': 301,
+            'amazon_2.pipelines.AmazonProductDump': 301,
         },
         # this is delays between requests(in sec).
         # If you want get faster, you can change it, but it is on your own risk
@@ -66,7 +66,7 @@ class ProductPageSpider(scrapy.Spider):
         for link in links:
             url = link[4]
             yield scrapy.Request(url=url, callback=self.parse, meta={'link': link})
-            break
+
 
     def get_review(self, response):
         # get reviews
@@ -103,9 +103,6 @@ class ProductPageSpider(scrapy.Spider):
                 item['description'] = response.xpath('//div[@id="bookDescription_feature_div"]/noscript/div/text()').getall()
             if not item['description']:
                 item['description'] = response.xpath('//div[@id="productDescription_feature_div"]//p/text()').getall()
-            item['image'] = response.xpath('//div[@id="imgTagWrapperId"]/img/@data-a-dynamic-image').get()
-            if not item['image']:
-                item['image'] = response.xpath('//img[@id="imgBlkFront"]//@data-a-dynamic-image').get()
             item['top_100'] = False
             tables = response.css('.attrG')
             if tables:
@@ -135,4 +132,5 @@ class ProductPageSpider(scrapy.Spider):
                         {'star':self.default_stars[url_star],
                          'data': self.get_review(res)}
                     )
+            item['image'] = response.xpath('//div[@id="imageBlock_feature_div"]/script').get()
             yield item
