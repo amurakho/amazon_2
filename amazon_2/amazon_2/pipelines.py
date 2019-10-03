@@ -236,7 +236,11 @@ class AmazonProductDump(object):
 
     def process_item(self, item, spider):
         if item.get('image'):
-            item['image'] = json.dumps(item['image'])
+            images = json.dumps(item['image'])
+            patterns = '[]"'
+            for pattern in patterns:
+                images = images.replace(pattern, '')
+            item['image'] = images
         self.store_db(item)
         return item
 
