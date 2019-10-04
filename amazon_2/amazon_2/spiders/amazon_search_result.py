@@ -55,12 +55,15 @@ class AmazonSearchResultSpider(scrapy.Spider):
         keywords = kwargs.get('keywords', None)
         if keywords:
             self.keywords = keywords.split(',')
+        else:
+            self.keywords = []
         self.image_manage = 'link'
         self.max_pages = kwargs.get('pages', None)
 
     def parse(self, response):
         # next we create the request for our keyword
         for keyword in self.keywords:
+            print(keyword)
             searching_url = 'https://www.amazon.in/s?k={}'
             url = searching_url.format(keyword)
             yield scrapy.Request(url=url, callback=self.parse_page_result, meta={

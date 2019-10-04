@@ -297,6 +297,9 @@ class AmazonProductDump(object):
             if item['keyword'] not in keywords:
                 keywords.append(item['keywords'])
                 keywords = json.dumps(keywords)
+                patterns = '[]"'
+                for pattern in patterns:
+                    keywords = keywords.replace(pattern, '')
             else:
                 keywords = json.dumps([item['keyword']])
             self.curr.execute(
@@ -312,6 +315,9 @@ class AmazonProductDump(object):
         # if not exist and use amazon_search_result scrapper - create row
         elif not row and item['scrapper'] == 'amazon_search_result':
             keywords = json.dumps([item['keyword']])
+            patterns = '[]"'
+            for pattern in patterns:
+                keywords = keywords.replace(pattern, '')
             self.curr.execute(
                 """
                 INSERT INTO product(asin,title,url,price,stars,
